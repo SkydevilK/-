@@ -35,3 +35,69 @@
     3) 매개변수가 없는 build 메서드를 호출해 객체를 얻는다.
   - 빌더 패턴은 명명된 선택적 매개변수(named optional parameters)를 흉내 낸 것이다.
   - 계층적으로 설계된 클래스와 함께 사용하기에 좋다.
+  
+<h1>아이템 3. private 생성자나 열거 타입으로 싱글턴임을 보증하라</h1>
+  
+- 싱글턴(Singleton)이란 인스턴스를 오직 하나만 생성할 수 있는 클래스를 만드는 패턴
+  - 예제
+    1) 함수와 같은 무상태(stateless) 객체
+    2) 설계상 유일해야 하는 시스템 컴포넌트
+- 클래스를 싱글턴으로 만들면 이를 사용하는 클라이언트를 테스트하기가 어려워지는 단점이 있다.
+- public static final 필드 방식의 싱글턴
+  ```
+  public class Singleton {
+    public static final Singleton INSTANCE = new Singleton();
+    private Singleton(){}
+    public void Something(){}
+  }
+  ```
+  - private 생성자는 public static final 필드인 Singleton.INSTANCE를 초기화할 때 딱 한 번만 호출된다.
+  - public이나 protected 생성자가 없으므로 Singleton 클래스가 초기화 될 때 만들어진 인스턴스가 전체 시스템에서 하나뿐임이 보장된다.
+  - 권한이 있는 클라이언트는 리플렉션 API인 AccessibleObject.setAccessible을 사용해 private 생성자를 호출할 수 있다.
+    - 생성자를 수정하여 두 번째 객체가 생성되려 할 때 예외를 던지게 하면 된다.
+  
+  <h4>장점</h4>
+  
+    1) 해당 클래스가 싱글턴임이 API에 명백히 드러난다
+    2) 간결하다
+    
+- 정적 팩터리 방식의 싱글턴
+  ```
+  public class Singleton {
+    private static final Singleton INSTANCE = new Singleton();
+    private Singleton(){}
+    public static Singleton getInstance(){
+      return INSTANCE;
+    }
+    public void Something(){}
+  }
+  ```
+  - Singleton.getInstance는 항상 같은 객체의 참조를 반환하므로 제 2의 Singleton 인스턴스란 결코 만들어지지 않는다.(리플렉션을 통한 예외는 똑같이 처리해야 한다.)
+  
+  <h4>장점</h4>
+  
+  1) API를 바꾸지 않고도 싱글턴이 아니게 변경할 수 있다
+  2) 정적 팩터리를 제네릭 싱글턴 팩터리로 만들 수 있다
+  3) 정적 팩터리의 메서드 참조를 공급자(supplier)로 사용할 수 있다.
+  
+- 위의 두가지 방식은 직렬화하면 모든 인스턴스 필드를 일시적(transient)라고 선언하고 readResolve 메서드를 제공해야 한다.
+    - 이렇게 안하면 직렬화된 인스턴스를 역직렬화할 때마다 새로운 인스턴스가 만들어진다.
+    ```
+    private Object readResolve(){
+      reurn INSTANCE;
+    }
+    
+- 열거 타입 방식의 싱글턴
+  ```
+  public enum Singleton {
+    INSTANCE;
+    public void Something(){}
+  }
+  ```
+  - public 필드 방식과 비슷하지만, 더 간결하고, 추가 노력 없이 직렬화 할 수 있다.
+  - 대부분 상황에서는 원소가 하나뿐인 열거 타입이 싱글턴을 만드는 가장 좋은 방법이다.
+  
+  <h4>단점</h4>
+  
+  - 만들려는 싱글턴이 Enum 외의 클래스를 상속해야 한다면 이 방법은 사용할 수 없다.
+  
