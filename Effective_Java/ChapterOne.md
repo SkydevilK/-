@@ -188,3 +188,66 @@
 - AutoCloseable을 구현하고 close 메서드를 호출하면 된다.
 - cleaner(Java 8까지는 finalizer)는 안전망 역할이나 중요하지 않은 네이티브 자원 회수용으로만 사용하는 것이 좋다.
   - 불확실성과 성능 저하에 주의해야 한다.
+
+<h1>아이템 9. try-finally보다는 try-with-resources를 사용하라</h1>
+
+- try-finally : 전통적인 방식
+  ```
+  static String firstLineOfFile(String path) throws IOException {
+  BufferedReader br = new BufferedReader(new FileReader(path));
+  try {
+    return br.readLine();
+  } finally {
+    br.close();
+  }
+  ```
+  - 리소스가 둘 이상이면 지저분해 진다.
+  ```
+  static void copy(String src, String dst) throws IOException {
+    InputStream in = new FileInputStream(src);
+    try {
+      OutputStream out = new FileOutputStream(dst);
+      try {
+        byte[] buf = new byte[BUFFER_SIZE];
+        int n;
+        while ((n = in.read(buf)) >= 0)
+          out.write(buf, 0, n);
+      } finally {
+        out.close();
+      }
+    } finally {
+      in.close();
+    }
+  }
+  ```
+- try-with-resources : 지원을 회수하는 최선의 방법
+  ```
+  static String firstLineOfFile(String path) throws IOException {
+    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+      return br.readLine();
+    }
+  }
+  ```
+  ```
+  static void copy(String src, String dst) throws IOException {
+    try (InputStream in = new FileInputStream(src);
+         OutputStream out = new FileOutputStream(dst)) {
+         byte[] buf = new byte[BUFFER_SIZE];
+         int n;
+         while ((n = in.read(buf)) >= 0)
+          out.write(buf, 0, n);
+    }
+  }
+  ```
+- try-with-resources와 catch
+  ```
+  static String firstLineOfFile(String path, String defaultVal) throws IOException {
+    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+      return br.readLine();
+    } catch (IOException e) {
+      return defaultVal;
+    }
+  }
+  ```
+- 꼭 회수해야 하는 자원을 다룰 때는 try-finall 말고, try-with-resources를 사용하자.
+- 코드는 짧고 분명해지고, 만들어지는 예외 정보도 훨씬 유용하다.
