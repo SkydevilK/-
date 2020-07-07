@@ -164,3 +164,27 @@
 - 리스너(listener) 혹은 콜백(callback)은 메모리 누수를 일으킨다.
   - 클라이언트가 콜백을 등록만 하고 해지하지 않는다면 계속 쌓여갈 것이다.
   - 콜백을 약한 참조(weak reference)로 저장하면 G.C가 즉시 수거해간다.
+
+<h1>아이템 8. finalizer와 cleaner 사용을 피하라</h1>
+
+- finalizer는 예측할 수 없고, 상황에 따라 위험할 수 있어 일반적으로 불필요하다.
+  - 오동작, 낮은 성능, 이식성 문제의 원인이 된다.
+  - 기본적으로는 '쓰지 말아야' 한다.
+- cleaner는 finalizer보다는 덜 위험하지만, 여전히 예측할 수 없고, 느리고, 일반적으로 필요 없다.
+- C++의 소멸자와 자바의 finalizer / cleaner 는 다른 개념이다.
+  - C++의 소멸자는 특정 객체와 관련된 리소스를 회수하는 보편적인 방법이다.
+  - 자바에서는 접근할 수 없게 된 객체를 회수하는 역할은 G.C가 담당하고 프로그래머에게 아무런 작업도 요구하지 않는다.
+  - C++의 소멸자는 비메모리 리소스를 회수하는 용도로도 쓰인다.
+  - 자바에서는 try-with-resources와 try-finally를 사용해 해결한다.
+- finalizer와 cleaner는 즉시 수행된다는 보장이 없다.
+  - 제때 실행되어야 하는 작업은 절대 할 수 없다.
+- 상태를 영구적으로 수정하는 작업에서는 절대 finalizer나 cleaner에 의존해서는 안 된다.
+  - 데이터베이스 같은 공유 자원의 영구 락(lock) 해제를 finalizer나 cleaner에 맡겨 놓으면 분산 시스템 전체가 멈출 것이다.
+- System.gc나 System.runFinalization 메서드에 현혹되지 말자.
+  - finalizer와 cleaner가 실행될 가능성을 높여줄 수는 있으나, 보장해주진 않는다.
+- finalizer와 cleaner는 심각한 성능 문제를 동반한다.
+- finalizer를 사용한 클래스는 finalizer 공격에 노출되어 심각한 보안 문제를 일으킬 수 있다.
+  - final이 아닌 클래스를 finalizer 공격으로부터 방어하려면 아무 일도 하지 않는 finalize 메서드를 만들고 final로 선언하면 된다.
+- AutoCloseable을 구현하고 close 메서드를 호출하면 된다.
+- cleaner(Java 8까지는 finalizer)는 안전망 역할이나 중요하지 않은 네이티브 자원 회수용으로만 사용하는 것이 좋다.
+  - 불확실성과 성능 저하에 주의해야 한다.
