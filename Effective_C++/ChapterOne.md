@@ -1,3 +1,15 @@
+<h1>Index</h1>
+
+---
+
+[1. C++를 언어들의 연합체로 바라보는 안목은 필수](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterOne.md#1-c%EB%A5%BC-%EC%96%B8%EC%96%B4%EB%93%A4%EC%9D%98-%EC%97%B0%ED%95%A9%EC%B2%B4%EB%A1%9C-%EB%B0%94%EB%9D%BC%EB%B3%B4%EB%8A%94-%EC%95%88%EB%AA%A9%EC%9D%80-%ED%95%84%EC%88%98)
+
+[2. #define을 쓰려거든 const, enum, inline을 떠올리자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterOne.md#2-define%EC%9D%84-%EC%93%B0%EB%A0%A4%EA%B1%B0%EB%93%A0-const-enum-inline%EC%9D%84-%EB%96%A0%EC%98%AC%EB%A6%AC%EC%9E%90)
+
+[3. 낌새만 보이면 const를 들이대 보자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterOne.md#3-%EB%82%8C%EC%83%88%EB%A7%8C-%EB%B3%B4%EC%9D%B4%EB%A9%B4-const%EB%A5%BC-%EB%93%A4%EC%9D%B4%EB%8C%80-%EB%B3%B4%EC%9E%90)
+
+[4. 객체를 사용하기 전에 반드시 그 객체를 초기화 해야 한다.](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterOne.md#4-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-%EB%B0%98%EB%93%9C%EC%8B%9C-%EA%B7%B8-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%B4%88%EA%B8%B0%ED%99%94-%ED%95%B4%EC%95%BC-%ED%95%9C%EB%8B%A4)
+
 # 1. C++를 언어들의 연합체로 바라보는 안목은 필수
 
 1. C
