@@ -3,10 +3,10 @@
 **재정의를 하지 않아도 되는 경우**
 - 각 인스턴스가 본질적으로 고유한 경우
   - 값이 아닌 동작하는 개체를 표현하는 클래스
-    - ex) Thread
+    - 예) Thread
 - 인스턴스의 '논리적 동치성'(logical equality)를 검사할 필요가 없을 경우
 - 상위 클래스에서 재정의한 equals가 하위 클래스에도 동일한 동작을 할 경우
-  - ex) Set, List, Map 구현체 등
+  - 예) Set, List, Map 구현체 등
 - 클래스가 private이거나 package-private이고 equals 메서드를 호출할 일이 없을 경우
   ```
   @Override public boolean equals(Object o) {
@@ -22,13 +22,13 @@
 
 **구현 방법**
 1. == 연산자를 사용해 입력이 자기 자신의 참조인지 확인한다.
-    - 단순한 성능 최적화용
+  - 단순한 성능 최적화용
 2. instanceof 연산자로 입력이 올바른 타입인지 확인한다.
-    - List, Map, Set 과 같은 인터페이스들 때문
+  - List, Map, Set 과 같은 인터페이스들 때문
 3. 입력을 올바른 타입으로 형변환한다.
-    - 2번이 성공하면 3번도 성공한다.
+  - 2번이 성공하면 3번도 성공한다.
 4. 입력 객체와 자기 자신의 대응되는 '핵심' 필드들이 모두 일치하는지 하나씩 검사한다.
-    - float과 double을 제외한 기본 타입 필드는 == 연산자를 활용한다.
+  - float과 double을 제외한 기본 타입 필드는 == 연산자를 활용한다.
   - 참조 타입 필드는 각각의 equals 메서드를 활용한다.
   - float과 double은 각각 정적 메서드인 Float.compare(float, float)과 Double.compare(double, double)로 비교한다.
   
