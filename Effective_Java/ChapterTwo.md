@@ -91,12 +91,21 @@ private int hashCode;
 - toString을 구현한 클래스는 사용하기 편하고, 특히 디버깅하기 편하다.
 - toString이 반환한 값에 포함된 정보를 얻어올 수 있는 API를 제공하자.
 
-**모든 클래스에서 Object의 toString을 재정의 해야 한다. 다만 상위 클래스에서 이미 재정의 했을 경우는 생략한다.**
-**toString은 해당 객체에 관한 명확하고 유용한 정보를 읽기 좋은 형태로 제공해야 한다.**
+**모든 클래스에서 Object의 toString을 재정의 해야 한다. 다만 상위 클래스에서 이미 재정의 했을 경우는 생략한다.<br>**
+**toString은 해당 객체에 관한 명확하고 유용한 정보를 읽기 좋은 형태로 제공해야 한다.<br>**
 
 # 아이템 13. clone 재정의는 주의해서 진행하라
 
-**새로운 인터페이스를 만들 때는 절대 Cloneable을 확장해서는 안 되며, 새로운 클래스도 이를 구현해서는 안 된다.**
-**final 클래스라면 Cloneable을 구현해도 위험이 없지만, 성능 최적화에 따라 허용 여부를 결정한다.**
-**복제 기능은 생성자와 팩터리를 이용하는 게 가장 좋다.**
-**예외적으로 배열은 clone 메서드 방식이 가장 깔끔하다.**
+**새로운 인터페이스를 만들 때는 절대 Cloneable을 확장해서는 안 되며, 새로운 클래스도 이를 구현해서는 안 된다.<br>**
+**final 클래스라면 Cloneable을 구현해도 위험이 없지만, 성능 최적화에 따라 허용 여부를 결정한다.<br>**
+**복제 기능은 생성자와 팩터리를 이용하는 게 가장 좋다.<br>**
+**예외적으로 배열은 clone 메서드 방식이 가장 깔끔하다.<br>**
+
+# 아이템 14. Comparable을 구현할지 고려하라
+
+**compareTo 메서드를 재정의할 때 따라야 하는 규약**
+- Comparable을 구현한 클래스는 모든 x, y에 대해 sgn(x.compareTo(y)) == -sgn(y.compareTo(x))가 성립해야 한다.
+- Comparable을 구현한 클래스는 추이성을 보장해야 한다. (x.compareTo(y) > 0 && y.compareTo(z) > 0))이면 x.compareTo(z) > 0 이다.
+- Comparable을 구현한 클래스는 모든 z에 대해 x.compareTo(y) == 0 이면 sgn(x.compareTo(z)) == sgn(y.compareTo(z)) 이다.
+- (x.compareTo(y) == 0) == (x.equals(y))여야 한다.
+
