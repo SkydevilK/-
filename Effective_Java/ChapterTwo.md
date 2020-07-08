@@ -84,3 +84,12 @@ private int hashCode;
   }
   return result;
 ```
+
+# 아이템 12. toString을 항상 재정의하라
+
+- 재정의를 하지 않을 경우 ObjectName@16진수로 표현한 hashCode를 반환한다.
+- toString을 구현한 클래스는 사용하기 편하고, 특히 디버깅하기 편하다.
+- toString이 반환한 값에 포함된 정보를 얻어올 수 있는 API를 제공하자.
+
+**모든 클래스에서 Object의 toString을 재정의 해야 한다. 다만 상위 클래스에서 이미 재정의 했을 경우는 생략한다.**
+**toString은 해당 객체에 관한 명확하고 유용한 정보를 읽기 좋은 형태로 제공해야 한다.**
