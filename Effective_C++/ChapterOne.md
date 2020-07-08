@@ -43,3 +43,59 @@
  
  **단순한 상수를 쓸 때는, #define보다 const 객체 혹은 enum을 우선 생각하자<br>**
  **함수처럼 쓰이는 매크로를 만들려면, #define 매크로보다 인라인 함수를 우선 생각하자**
+
+# 3. 낌새만 보이면 const를 들이대 보자
+
+- 외부 변경을 불가능하게 하는 것을 소스 코드 수준에서 할 수 있다.
+  1. 비상수 포인터, 비상수 데이터
+    ```
+    int a = 5;
+    int* ptr = &a;
+    *ptr = 3;
+    ```
+  2. 비상수 포인터, 상수 데이터
+    ```
+    int a = 5;
+    const int * ptr = &a;
+    *ptr = 3; // 변경 불가
+    a = 3;    // 변경 가능
+    ```
+  3. 상수 포인터, 비상수 데이터
+    ```
+    int a = 5, b = 0;
+    int * const ptr = *a;
+    *ptr = 3; // 변경 가능
+    ptr = &b; // 변경 불가
+    ```
+  4. 상수 포인터, 상수 데이터
+    ```
+    int a = 5, b = 5;
+    const int * const ptr = &a;
+    *ptr = 0; // 변경 불가
+    ptr = &b; // 변경 불가
+    ```
+- 상수 멤버 함수
+  - 해당 멤버 함수가 상수 객체에 대해 호출될 함수이다는 것을 알림
+    ```
+    class Samsung {
+      public:
+        const char& operator[] (std::size_t position) const {
+          return text[position];
+        }
+        char& operator[] (std::size_t position) {
+          return text[position];
+        }
+        
+      private:
+        std::string text;
+    };
+    
+    Samsung samsung("Galaxy");
+    samsung[0] = 'F';    // 변경 가능
+    const Samsung cSamsung("Note");
+    cSaumsung[0] = 'F';  // 변경 불가
+    ```
+
+**const를 붙여 선언하면 컴파일러가 사용상의 에러를 잡아내는 데 도움을 준다. const는 어떤 유효범위에 있는 객체나 함수 매개변수, 반환타입, 멤버함수에 붙을 수 있다.<br>
+컴파일러 쪽에서 보면 비트수준 상수성을 지켜야 하지만, 프로그래머는 개념적인(논리적인) 상수성을 사용해서 프로그래밍을 해야 한다.<br>
+상수 멤버 및 비상수 멤버 함수가 기능적으로 서로 똑같게 구현되어 있을 경우에는 코드 중복을 피하는 것이 좋다. 이때 비상수 버전이 상수 버전을 호출하도록 해라**
