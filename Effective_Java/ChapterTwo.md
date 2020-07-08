@@ -31,5 +31,56 @@
   - float과 double을 제외한 기본 타입 필드는 == 연산자를 활용한다.
   - 참조 타입 필드는 각각의 equals 메서드를 활용한다.
   - float과 double은 각각 정적 메서드인 Float.compare(float, float)과 Double.compare(double, double)로 비교한다.
-  
+```
+public class Samsung {
+  private String phoneNumber;
+  private int battery;
+  private String deviceName;
+  @Override public boolean equals(Object o) {
+    if (o==this)
+      return true;
+    if (!(o instanceof Samsung))
+      return false;
+    Samsung samsung = (Samsung)o;
+    return o.phoneNumber.equals(phoneNumber) && o.battery == battery && deviceName.equals(deviceName);
+  }  
+}
+```
 **꼭 필요한 경우가 아니면 equals를 재정의하지 말자. 많은 경우에 Object의 equals가 프로그래머가 원하는 비교를 정확히 수행한다. 재정의해야 할 때는 그 클래스의 핵심 필드 모두를 빠짐없이, 다섯 가지 규약을 확실히 지켜가며 비교해야 한다.**
+
+# 아이템 11. equals를 재정의하려거든 hashCode도 재정의하라.
+
+**equals를 재정의한 클래스는 모두 hashCode도 재정의해야 한다.**
+  - 논리적으로 같은 객체는 같은 해시코드를 반환해야 하기 때문이다.
+  
+**hashCode 만드는 방법**
+1. int 변수 result를 선언 후 값 c로 초기화 한다. 이때 c는 해당 객체에서 첫 번째 equals 비교에 사용되는 필드를 2.a 방식으로 계산한 hashCode이다.
+2. 해당 객체의 나머지 equals 비교에 사용되는 필드 f 각각에 대해 다음 작업을 수행한다.
+  a. 해당 필드의 해시코드 c를 계산한다.
+    i. 기본 타입 필드라면, Type.hashCode(f)를 수행한다. 여기서 Type은 해당 기본 타입의 박싱 클래스이다.
+    ii. 참조 타입 필드면서 이 클래스의 equals 메서드가 이 필드의 equals를 재귀적으로 호출해 비교한다면, 이 필드의 hashCode를 재귀적으로 호출한다. 필드의 값이 null이면 0을 사용한다.
+    iii. 필드가 배열이라면, 배열의 원소 각각을 별도 필드처럼 다룬다. 
+  b. result = 31 * result + c;
+
+- 전통적인 방법
+```
+@Override public int hashCode() {
+  int result = String.hashCode(phoneNumber);
+  result = 31 * result + Integer.hashCode(battery);
+  result = 31 * result + String.hashCode(deviceName);
+  return result;
+}
+```
+- hashCode를 지연 초기화하는 hashCode 메서드 - 스레드 안정성을 고려해야 한다.
+```
+private int hashCode;
+@Override public int hashCode() {
+  int result = hashCode;
+  if(result == 0) {
+  result = String.hashCode(phoneNumber);
+  result = 31 * result + Integer.hashCode(battery);
+  result = 31 * result + String.hashCode(deviceName);
+  hashCode = result;
+  }
+  return result;
+```
