@@ -1,3 +1,17 @@
+# Index
+
+---
+
+[아이템 10. equals는 일반 규약을 지켜 재정의하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterTwo.md#%EC%95%84%EC%9D%B4%ED%85%9C-10-equals%EB%8A%94-%EC%9D%BC%EB%B0%98-%EA%B7%9C%EC%95%BD%EC%9D%84-%EC%A7%80%EC%BC%9C-%EC%9E%AC%EC%A0%95%EC%9D%98%ED%95%98%EB%9D%BC)
+
+[아이템 11. equals를 재정의하려거든 hashCode도 재정의하라.](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterTwo.md#%EC%95%84%EC%9D%B4%ED%85%9C-11-equals%EB%A5%BC-%EC%9E%AC%EC%A0%95%EC%9D%98%ED%95%98%EB%A0%A4%EA%B1%B0%EB%93%A0-hashcode%EB%8F%84-%EC%9E%AC%EC%A0%95%EC%9D%98%ED%95%98%EB%9D%BC)
+
+[아이템 12. toString을 항상 재정의하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterTwo.md#%EC%95%84%EC%9D%B4%ED%85%9C-12-tostring%EC%9D%84-%ED%95%AD%EC%83%81-%EC%9E%AC%EC%A0%95%EC%9D%98%ED%95%98%EB%9D%BC)
+
+[아이템 13. clone 재정의는 주의해서 진행하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterTwo.md#%EC%95%84%EC%9D%B4%ED%85%9C-13-clone-%EC%9E%AC%EC%A0%95%EC%9D%98%EB%8A%94-%EC%A3%BC%EC%9D%98%ED%95%B4%EC%84%9C-%EC%A7%84%ED%96%89%ED%95%98%EB%9D%BC)
+
+[아이템 14. Comparable을 구현할지 고려하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterTwo.md#%EC%95%84%EC%9D%B4%ED%85%9C-14-comparable%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%A0%EC%A7%80-%EA%B3%A0%EB%A0%A4%ED%95%98%EB%9D%BC)
+
 # 아이템 10. equals는 일반 규약을 지켜 재정의하라
 
 **재정의를 하지 않아도 되는 경우**
