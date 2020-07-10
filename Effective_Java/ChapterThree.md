@@ -43,8 +43,39 @@
     }
     ```
     
-    **프로그램 요소의 접근은 가능한 최소화 하자<br>**
-    **최소한의 public API를 설계하자<br>**
-    **public 클래스는 상수용 public static final 필드 외에는 어떠한 public 필드를 가져서는 안 된다<br>**
-    **public static final 필드가 참조하는 객체가 불변인지 확인하자<br>**
+**프로그램 요소의 접근은 가능한 최소화 하자<br>**
+**최소한의 public API를 설계하자<br>**
+**public 클래스는 상수용 public static final 필드 외에는 어떠한 public 필드를 가져서는 안 된다<br>**
+**public static final 필드가 참조하는 객체가 불변인지 확인하자<br>**
     
+# 아이템 16. public 클래스에서는 public 필드가 아닌 접근자 메서드를 사용하라
+
+- 데이터 필드에 직접 접근할 수 있으니 캡슐화의 이점을 제공하지 못한다.
+```
+class Point {
+  public double x;
+  public double y;
+}
+```
+- 필드를 모두 private로 바꾸고 public 접근자(getter / setter)를 추가한다.
+```
+class Point {
+  private double x;
+  private double y;
+  
+  public Point(double x, double y) {
+    this.x = x;
+    this.y = y;
+  }
+  
+  public double getX() { return x; }
+  public double getY() { return y; }
+  public void setX(double x) { this.x = x; }
+  public void setY(double y) { this.y = y; }
+}
+```
+- public 클래스라면 접근자를 제공해야 하지만, pakage-private 클래스 혹은 private 중첨 클래스라면 데이터 필드를 노출한다 해도 문제가 없다.
+
+**public 클래스는 절대 가변 필드를 직접 노출해서는 안 된다<br>**
+**불변 필드라면 노출해도 덜 위험하지만 완전히 안심할 수는 없다<br>**
+**package-private 클래스나 private 중첩 클래스에서는 종종 (불변이든 가변이든) 필드를 노출하는 편이 나을 때도 있다**
