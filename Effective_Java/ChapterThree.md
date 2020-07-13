@@ -223,3 +223,64 @@ public final class Calc {
 
 **인터페이스는 타입을 정의하는 용도로만 사용해야 한다.<br>**
 **상수 공개용 수단으로 사용하지 말아야 한다.<br>**
+
+# 아이템 23. 태그 달린 클래스보다는 클래스 계층구조를 활용하라
+
+```
+class Shape {
+  enum SHAPE { RECTANGLE, CIRCLE };
+  final SHAPE shape;
+  double length;
+  double width;
+  double radius;
+  Shape(double radius) {
+    this.shape = SHAPE.CIRCLE;
+    this.radius = radius;
+  }
+  Shape(double length, double width) {
+    this.shape = SHAPE.RECTANGLE;
+    this.length = length;
+    this.width = width;
+  }
+  double area() {
+    switch(this.shape) {
+      case SHAPE.RECTANGLE:
+        return length * width;
+      case SHAPE.CIRCLE:
+        return Math.PI * (radius * radius);
+      default:
+        throw new AssertionError(this.shape);      
+    }
+  }
+}
+```
+- 태그 달린 클래스는 장황하고, 오류를 내기 쉽고, 비효율적이다.
+- 태그 달린 클래스는 클래스 계층 구조를 어설프게 흉내냈다.
+```
+abstract class Shape {
+  abstract double area();
+}
+class Circle extends Shape {
+  final double radius;
+  Circle(double radius) { 
+    this.radius = radius; 
+  }
+  @Override double area() {
+    return Math.PI * (radius * radius);
+  }
+}
+class Rectangle extends Shape {
+  final double length;
+  final double width;
+  Rectangle(double length, double width) { 
+    this.length = length;
+    this.width = width;
+  }
+  @Override double area() {
+    return length * width;
+  }
+}
+```
+**태그 달린 클래스를 써야 하는 상황은 거의 없다.<br>**
+**새로운 클래스를 작성하는 데 태그 필드가 등장한다면 태그를 없애고 계층구조로 대체하는 방법을 생각해보자.<br>**
+**기존 클래스가 태크 필드를 사용하고 있다면 계층구조로 리팩터링 하는 것을 고민해보자.<br>**
