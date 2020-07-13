@@ -1,3 +1,23 @@
+# Index
+
+---
+
+[5. C++이 은근슬쩍 만들어 호출해 버리는 함수들에 촉각을 세우자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#5-c%EC%9D%B4-%EC%9D%80%EA%B7%BC%EC%8A%AC%EC%A9%8D-%EB%A7%8C%EB%93%A4%EC%96%B4-%ED%98%B8%EC%B6%9C%ED%95%B4-%EB%B2%84%EB%A6%AC%EB%8A%94-%ED%95%A8%EC%88%98%EB%93%A4%EC%97%90-%EC%B4%89%EA%B0%81%EC%9D%84-%EC%84%B8%EC%9A%B0%EC%9E%90)
+
+[6. 컴파일러가 만들어낸 함수가 필요 없으면 확실히 이들의 사용을 금지해 버리자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#6-%EC%BB%B4%ED%8C%8C%EC%9D%BC%EB%9F%AC%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%82%B8-%ED%95%A8%EC%88%98%EA%B0%80-%ED%95%84%EC%9A%94-%EC%97%86%EC%9C%BC%EB%A9%B4-%ED%99%95%EC%8B%A4%ED%9E%88-%EC%9D%B4%EB%93%A4%EC%9D%98-%EC%82%AC%EC%9A%A9%EC%9D%84-%EA%B8%88%EC%A7%80%ED%95%B4-%EB%B2%84%EB%A6%AC%EC%9E%90)
+
+[7. 다형성을 가진 기본 클래스에서는 소멸자를 반드시 가상 소멸자로 선언하자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#7-%EB%8B%A4%ED%98%95%EC%84%B1%EC%9D%84-%EA%B0%80%EC%A7%84-%EA%B8%B0%EB%B3%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C%EB%8A%94-%EC%86%8C%EB%A9%B8%EC%9E%90%EB%A5%BC-%EB%B0%98%EB%93%9C%EC%8B%9C-%EA%B0%80%EC%83%81-%EC%86%8C%EB%A9%B8%EC%9E%90%EB%A1%9C-%EC%84%A0%EC%96%B8%ED%95%98%EC%9E%90)
+
+[8. 예외가 소멸자를 떠나지 못하도록 붙들어 놓자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#8-%EC%98%88%EC%99%B8%EA%B0%80-%EC%86%8C%EB%A9%B8%EC%9E%90%EB%A5%BC-%EB%96%A0%EB%82%98%EC%A7%80-%EB%AA%BB%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B6%99%EB%93%A4%EC%96%B4-%EB%86%93%EC%9E%90)
+
+[9. 객체 생성 및 소멸 과정 중에는 절대로 가상 함수를 호출하지 말자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#9-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%86%8C%EB%A9%B8-%EA%B3%BC%EC%A0%95-%EC%A4%91%EC%97%90%EB%8A%94-%EC%A0%88%EB%8C%80%EB%A1%9C-%EA%B0%80%EC%83%81-%ED%95%A8%EC%88%98%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%98%EC%A7%80-%EB%A7%90%EC%9E%90)
+
+[10. 대입 연산자는 *this 의 참조자를 반환하게 하자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#10-%EB%8C%80%EC%9E%85-%EC%97%B0%EC%82%B0%EC%9E%90%EB%8A%94-this-%EC%9D%98-%EC%B0%B8%EC%A1%B0%EC%9E%90%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%98%EA%B2%8C-%ED%95%98%EC%9E%90)
+
+[11. operator=에서는 self assignment에 대한 처리가 빠지지 않도록 하자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#11-operator%EC%97%90%EC%84%9C%EB%8A%94-self-assignment%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B2%98%EB%A6%AC%EA%B0%80-%EB%B9%A0%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8F%84%EB%A1%9D-%ED%95%98%EC%9E%90)
+
+[12. 객체의 모든 부분을 빠짐없이 복사하자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterTwo.md#12-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%AA%A8%EB%93%A0-%EB%B6%80%EB%B6%84%EC%9D%84-%EB%B9%A0%EC%A7%90%EC%97%86%EC%9D%B4-%EB%B3%B5%EC%82%AC%ED%95%98%EC%9E%90)
+
 # 5. C++이 은근슬쩍 만들어 호출해 버리는 함수들에 촉각을 세우자
 
 - 클래스에서 컴파일러가 저절로 선언해 주는 것들
