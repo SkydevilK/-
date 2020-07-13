@@ -197,3 +197,29 @@ public final class Calc {
 - Java 7까지는 default method가 없어서 문제가 상관 없었다.
 - default method는 기존 구현체에 런타임 오류를 일으킬 수도 있다.
 - 인터페이스를 설계 할 때는 세심한 주의를 기울어야 한다.
+
+# 아이템 22. 인터페이스는 타입을 정의하는 용도로만 사용하라
+
+- 인터페이스는 자신을 구현한 클래스의 인스턴스를 참조할 수 있는 타입 역할만 해야 한다.
+- 잘못된 예로 상수 인터페이스가 있다.
+  ```
+  public interface PhysicalConstants {
+    static final double PI = 3.1492;
+    static final double BOLTZMANN_CONSTANT = 1.308;
+    static final double GRAVITE_POWER = 9.8;
+  }
+  ```
+  - 내부 구현을 클래스의 API로 노출하는 행위
+  - Client 코드가 내부 구현에 해당하는 이 상수들에 종속 된다.
+- 상수 유틸리티 클래스로 해결한다.
+  ```
+  public calss PhysicalConstants {
+    private PhysicalConstants() {}
+    public static final double PI = 3.1492;
+    public static final double BOLTZMANN_CONSTANT = 1.308;
+    public static final double GRAVITE_POWER = 9.8;
+  }
+  ```
+
+**인터페이스는 타입을 정의하는 용도로만 사용해야 한다.<br>**
+**상수 공개용 수단으로 사용하지 말아야 한다.<br>**
