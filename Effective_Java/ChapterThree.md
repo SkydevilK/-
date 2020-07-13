@@ -79,3 +79,88 @@ class Point {
 **public 클래스는 절대 가변 필드를 직접 노출해서는 안 된다<br>**
 **불변 필드라면 노출해도 덜 위험하지만 완전히 안심할 수는 없다<br>**
 **package-private 클래스나 private 중첩 클래스에서는 종종 (불변이든 가변이든) 필드를 노출하는 편이 나을 때도 있다**
+
+# 아이템 17. 변경 가능성을 최소화하라
+
+- 불변 클래스
+  - 인스턴스의 내부 값을 수정할 수 없는 클래스를 지칭함
+- 클래스를 불변으로 만드는 법
+  - 객체의 상태를 변경하는 메서드를 제공하지 않는다.
+  - 클래스를 확장할 수 없도록 한다.
+  - 모든 필드를 final로 선언한다.
+  - 모든 필드를 private로 선언한다.
+  - 자신 외에는 내부의 가변 컴포넌트에 접근할 수 없도록 한다.
+```
+public final class Calc {
+  private final double realNumber;
+  private final double imaginaryNumber;
+  
+  public Clac(double realNumber, double imaginaryNumber) {
+    this.realNumber = readNumber;
+    this.imaginaryNumber = imaginaryNumber;
+  }
+  
+  public double realNumberPart() {
+    return this.realNumber;
+  }
+  
+  public double imaginaryPart() {
+    return this.imaginaryNumber;
+  }
+  
+  public Calc plus(Calc c) {
+    return new Calc(this.realNumber + c.realNumber, this.imaginaryNumber + c.imaginaryNumber);
+  }
+  
+  public Calc minus(Calc c) {
+    return new Calc(this.realNumber - c.realNumber, this.imaginaryNumber - c.imaginaryNumber);
+  }
+  
+  public Calc times(Calc c) {
+    return new Calc(this.realNumber * c.realNumber - this.imaginaryNumber * c.imaginaryNumber, this.realNumber * c.imaginaryNumber + this.imaginaryNumber * c.realNumber);
+  }
+  
+  public Calc divided(Calc c) {
+    double temp = c.realNumber * c.realNumber + c.imaginaryNumber * c.imaginaryNumber;
+    return new Calc((this.realNumber * c.realNumber - this.imaginaryNumber * c.imaginaryNumber) / temp , (this.realNumber * c.imaginaryNumber + this.imaginaryNumber * c.realNumber) / temp);
+  }
+  
+  @Override public boolean equals(Object o) { 
+    if(o==this)
+      reutrn true;
+    if (!(o instanceof Calc))
+      return false;
+    Calc c = (Calc) o;
+    return Double.compare(realNumber, c.realNumber) == 0 ** Double.compare(imaginaryNumber, c.imaginaryNumber) == 0
+  }
+  
+  @Override public int hashCode() {
+    return 31 * Double.hashCode(realNumber) + Double.hashCode(imaginaryNumber);
+  }
+  
+  @Override public String toString() {
+    reutrn "(" + realNumber + " + " + imaginaryNumber + "i)";
+  }
+  ```
+  - 불변 객체는 근본적으로 Thread-Safe 하여 따로 동기화할 필요가 없다.
+  - 불변 객체는 안심하고 공유할 수 있다.
+  - 불변 객체는 실패 원자성을 제공한다.
+    - 메서드에서 예외가 발생한 후에도 그 객체는 여전히 유효한 상태
+  - 값이 다르면 반드시 독립된 객체로 만들어야 한다는 단점이 있다.
+  
+# 아이템 18. 상속보다는 컴포지션을 사용하라
+
+- 메서드 호출과 달리 상속은 캡슐화를 깨뜨린다.
+  - 상위 클래스가 어떻게 구현되느냐에 따라 하위 클래스의 동작에 이상이 생길 수 있다.
+  - 메서드 재정의가 원인이다.
+- 기존 클래스를 확장하는 대신, 새로운 클래스를 만들고 private 필드로 기존 클래스의 인스턴스를 참조하게 하면 된다.
+- Composition
+  - 기존 클래스가 새로운 클래스의 구성요소로 쓰인다는 의미
+- Forwarding
+  - 새 클래스의 인스턴스 메서드들은 기존 클래스의 대응하는 메서드를 호출해 그 결과를 반환한다.
+
+**상속은 강력하지만 캡슐화를 해친다는 문제가 있다.<br>**
+**상속은 상위 클래스와 하위 클래스가 순수한 is-a 관계일 때만 사용해야 한다.<br>**
+**하위클래스의 패키지가 상위 클래스와 다르고, 상위 클래스가 확장을 고려해 설계되지 않으면 문제가 된다.<br>**
+**상속의 취약점을 피하려면 상속 대신 컴포지션과 전달을 사용하자.<br>**
+**특히 래퍼 클래스로 구현할 적당한 인터페이스가 있다면 꼭 사용하자.<br>**
