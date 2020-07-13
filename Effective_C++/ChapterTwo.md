@@ -109,3 +109,51 @@ class DBConn {
 
 **소멸자에서는 예외가 빠져나가면 안 된다. 만약 소멸자 안에서 호출된 함수가 예외를 던질 가능성이 있다면, 어떤 예외이든지 소멸자에서 모두 받아낸 후에 삼켜 버리든지 프로그램을 끝내든지 해야한다.<br>**
 **어떤 클래스의 연산이 진행되다가 던진 예외에 대해 사용자가 반응해야 할 필요가 있다면, 해당 연산을 제공하는 함수는 반드시 보통의 함수(즉, 소멸자가 아닌 함수)이어야 한다.<br>**
+
+# 9. 객체 생성 및 소멸 과정 중에는 절대로 가상 함수를 호출하지 말자
+
+```
+class Galaxy {
+  public:
+    Galaxy();
+    virtual void log() const = 0;
+};
+Galaxy::Galaxy(){
+  log();
+}
+class NoteSeven: public Galaxy {
+  public:
+    virtual void log() const;
+};
+```
+```
+NoteSeven note;
+```
+- 생성자 호출 순서
+  1. Galaxy 생성자가 호출됨.
+  2. Galaxy 생성자 안의 log 함수가 호출 됨.
+  3. NodeSeven 생성자가 호출됨.
+  - 기본 클래스의 생성자가 호출될 동안에는, 가상 함수는 파생 클래스 쪽으로 내려가지 않는다.
+  - 호출되는 가상 함수는 모두 기본 클래스의 것으로 결정된다.
+- 해결법
+  1. log를 Galaxy 클래스의 비가상 멤버 함수로 바꿔준다.
+  2. 그 후, 파생 클래스의 생성자들로 하여금 필요한 로그 정보를 Galaxy의 생성자로 넘겨야 한다는 규칙을 만든다.
+  ```
+  class Galaxy {
+  public:
+    explicit Galaxy(const std::string& logInfo);
+    void log(const std::string& logInfo) const;
+  };
+  Galaxy::Galaxy(const std::string& logInfo){
+    log(logInfo);
+  }
+  class NoteSeven: public Galaxy {
+    public:
+      NoteSeven(parameters...) : Galaxy(createLogString(parameters...)){}
+    private:
+      static std::string createLogString(parameters...);
+  };
+  ```
+  - 기본 클래스 부분이 생성될 때는 가상 함수를 호출한다 해도 기본 클래스의 범위를 넘어 내려갈 수 없기 때문에, 필요한 초기화 정보를 파생 클래스 쪽에서 기본 클래스 생성자로 올려 주도록 만든다.
+
+**생성자 혹은 소멸자 안에서 가상함수를 호출하지 말자. 가상함수라고 해도, 지금 실행 중인 생성자나 소멸자에 해당되는 클래스의 파생 클래스 쪽으로는 내려가지 못한다.<br>**
