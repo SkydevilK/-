@@ -1,4 +1,4 @@
-# 5. C++이 은근슬쩍 만들어 호출해 버리는 함수들에 촉각을 세우자.
+# 5. C++이 은근슬쩍 만들어 호출해 버리는 함수들에 촉각을 세우자
 
 - 클래스에서 컴파일러가 저절로 선언해 주는 것들
   - 기본 생성자(default constructor)
@@ -170,3 +170,45 @@ class Samsung {
 ```
 - 대입 연산이 사슬처럼 엮이려면 대입 연산자가 좌변 인자에 대한 참조자를 반환하도록 구현되어 있을 것이다.
 - 이는 일종의 관례이고, 클래스에 대입 연산자가 들어간다면 지키는 것이 좋다.
+
+# 11. operator=에서는 self assignment에 대한 처리가 빠지지 않도록 하자
+
+- self assignment
+  - 어떤 객체가 자기 자신에 대해 대입 연산자를 적용하는 것
+  ```
+  class Samsung {...};
+  Samsung samsung;
+  samsung = samsung;  //자기 자신에 대해 대입
+  ```
+- 해결법
+  - 포인터가 가리키는 객체를 복사한 직후 삭제
+  ```
+  class Samsung {
+    public:
+      Samsung& operator=(const Samsung& rhs){
+        CPU *temp = cpu;
+        cpu = new CPU(*rhs.cpu);
+        delete temp;
+        return *this;
+      }
+    private:
+      CPU *cpu;
+  };
+  ```
+  - copy and swap
+  ```
+  class Samsung {
+    public:
+      void swap(Samsung& rhs); // *this의 데이터 및 rhs의 데이터를 바꾼다.
+      Samsung& operator=(const Samsung& rhs){
+        Samsung temp(rhs);
+        swap(temp);
+        return *this;
+      }
+    private:
+      CPU *cpu;
+  };
+  ```
+
+**operator=을 구현할 때, 어떤 객체가 그 자신에 대입되는 경우를 제대로 처리하도록 만들자. 원본 객체와 복사대상 객체의 주소를 비교해도 되고, 문장의 순서를 적절히 조정할 수도 있고, copy and swap 방법을 써도 된다.<br>**
+**두 개 이상의 객체에 대해 동작하는 함수가 있으면 이 함수에 넘겨지는 객체들이 사실 같은 객체인 경우에 정확하게 동작하는지 확인하자<br>**
