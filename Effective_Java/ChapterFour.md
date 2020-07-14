@@ -1,3 +1,29 @@
+# Index
+
+---
+
+[아이템 26. 로 타입은 사용하지 말라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterFour.md#%EC%95%84%EC%9D%B4%ED%85%9C-26-%EB%A1%9C-%ED%83%80%EC%9E%85%EC%9D%80-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EB%A7%90%EB%9D%BC)
+
+[아이템 27. 비검사 경고를 제거하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterFour.md#%EC%95%84%EC%9D%B4%ED%85%9C-27-%EB%B9%84%EA%B2%80%EC%82%AC-%EA%B2%BD%EA%B3%A0%EB%A5%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EB%9D%BC)
+
+[아이템 28. 배열보다는 리스트를 사용하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterFour.md#%EC%95%84%EC%9D%B4%ED%85%9C-28-%EB%B0%B0%EC%97%B4%EB%B3%B4%EB%8B%A4%EB%8A%94-%EB%A6%AC%EC%8A%A4%ED%8A%B8%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC)
+
+[아이템 29. 이왕이면 제네릭 타입으로 만들라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterFour.md#%EC%95%84%EC%9D%B4%ED%85%9C-29-%EC%9D%B4%EC%99%95%EC%9D%B4%EB%A9%B4-%EC%A0%9C%EB%84%A4%EB%A6%AD-%ED%83%80%EC%9E%85%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EB%9D%BC)
+
+[아이템 30. 이왕이면 제네릭 메서드로 만들라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterFour.md#%EC%95%84%EC%9D%B4%ED%85%9C-30-%EC%9D%B4%EC%99%95%EC%9D%B4%EB%A9%B4-%EC%A0%9C%EB%84%A4%EB%A6%AD-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%A7%8C%EB%93%A4%EB%9D%BC)
+
+[아이템 31. 한정적 와일드카드를 사용해 API 유연성을 높이라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterFour.md#%EC%95%84%EC%9D%B4%ED%85%9C-31-%ED%95%9C%EC%A0%95%EC%A0%81-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4-api-%EC%9C%A0%EC%97%B0%EC%84%B1%EC%9D%84-%EB%86%92%EC%9D%B4%EB%9D%BC)
+
+[아이템 21. 인터페이스는 구현하는 쪽을 생각해 설계하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterThree.md#%EC%95%84%EC%9D%B4%ED%85%9C-21-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%8A%94-%EA%B5%AC%ED%98%84%ED%95%98%EB%8A%94-%EC%AA%BD%EC%9D%84-%EC%83%9D%EA%B0%81%ED%95%B4-%EC%84%A4%EA%B3%84%ED%95%98%EB%9D%BC)
+
+[아이템 22. 인터페이스는 타입을 정의하는 용도로만 사용하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterThree.md#%EC%95%84%EC%9D%B4%ED%85%9C-22-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%8A%94-%ED%83%80%EC%9E%85%EC%9D%84-%EC%A0%95%EC%9D%98%ED%95%98%EB%8A%94-%EC%9A%A9%EB%8F%84%EB%A1%9C%EB%A7%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC)
+
+[아이템 23. 태그 달린 클래스보다는 클래스 계층구조를 활용하라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterThree.md#%EC%95%84%EC%9D%B4%ED%85%9C-23-%ED%83%9C%EA%B7%B8-%EB%8B%AC%EB%A6%B0-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%B3%B4%EB%8B%A4%EB%8A%94-%ED%81%B4%EB%9E%98%EC%8A%A4-%EA%B3%84%EC%B8%B5%EA%B5%AC%EC%A1%B0%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%98%EB%9D%BC)
+
+[아이템 24. 멤버 클래스는 되도록 static으로 만들라](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterThree.md#%EC%95%84%EC%9D%B4%ED%85%9C-24-%EB%A9%A4%EB%B2%84-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EB%90%98%EB%8F%84%EB%A1%9D-static%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EB%9D%BC)
+
+[아이템 25. 톱레벨 클래스는 한 파일에 하나만 담아야 한다.](https://github.com/SkydevilK/Study/blob/master/Effective_Java/ChapterThree.md#%EC%95%84%EC%9D%B4%ED%85%9C-25-%ED%86%B1%EB%A0%88%EB%B2%A8-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%ED%95%9C-%ED%8C%8C%EC%9D%BC%EC%97%90-%ED%95%98%EB%82%98%EB%A7%8C-%EB%8B%B4%EC%95%84%EC%95%BC-%ED%95%9C%EB%8B%A4)
+
 # 아이템 26. 로 타입은 사용하지 말라
 
 - Generic Class / Generic Interface
@@ -137,7 +163,7 @@ private static <E> void swapHelper(List<E> list, int i, int j) {
 **조금 복잡하더라도 와일드카드 타입을 적용하면 API가 훨씬 유연해진다.<br>**
 **PECS 공식을 기억하자.<br>**
 
-# 아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라**
+# 아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라
 
 - 가변인수와 제네릭은 궁합이 좋지 않다.
   - 가변인수 기능은 배열을 노출하여 추상화가 완벽하지 못하고, 배열과 제네릭의 타입 규칙이 서로 다르기 때문이다.
