@@ -27,5 +27,36 @@
     Set<?> set = (Set<?>) o;
   }
   ```
+
 **Raw Type을 사용하면 런타임에 예외가 일어날 수 있으니 사용하면 안 된다.<br>**
 **Raw Type은 Generic이 도입되기 이전 코드와의 호환성을 위해 제공될 뿐이다.<br>**
+
+# 아이템 27. 비검사 경고를 제거하라
+
+```
+public <T> T[] toArray(T[] a) {
+  if (a.length < size)
+    return (T[]) Arrays.copyOf(elements, size, a.getClass()); // Error 발생
+  System.arraycopy(elements, 0, a, 0, size);
+  if(a.length > size)
+    a[size] = null;
+  return a;
+}
+```
+```
+public <T> T[] toArray(T[] a) {
+  if (a.length < size) {
+    // 생성한 배열과 매개변수로 받은 배열의 타입이 모두 T[]로 같으므로 올바른 형변환이다.
+    @SuppressWarnings("unchecked") T[] result = (T[]) Arrays.copyOf(elements, size, a.getClass());
+    return result;
+  }
+  System.arraycopy(elements, 0, a, 0, size);
+  if(a.length > size)
+    a[size] = null;
+  return a;
+}
+```
+- @SuppressWarning("unchecked") 어노테이션을 사용할 때면 그 경고를 무시해도 안전한 이유를 항상 주석으로 남겨놔야 한다.
+
+**비검사 경고는 중요하니 무시하지말자<br>**
+**모든 비검사 경고는 런타임에서 ClassCastException을 일으킬 수 있다.<br>**
