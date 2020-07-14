@@ -1,3 +1,17 @@
+# Index
+
+---
+
+[13. 자원 관리에는 객체가 그만!](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterThree.md#13-%EC%9E%90%EC%9B%90-%EA%B4%80%EB%A6%AC%EC%97%90%EB%8A%94-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EA%B7%B8%EB%A7%8C)
+
+[14. 자원 관리 클래스의 복사 동작에 대해 진지하게 고찰하자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterThree.md#14-%EC%9E%90%EC%9B%90-%EA%B4%80%EB%A6%AC-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EB%B3%B5%EC%82%AC-%EB%8F%99%EC%9E%91%EC%97%90-%EB%8C%80%ED%95%B4-%EC%A7%84%EC%A7%80%ED%95%98%EA%B2%8C-%EA%B3%A0%EC%B0%B0%ED%95%98%EC%9E%90)
+
+[15. 자원 관리 클래스에서 관리되는 자원은 외부에서 접근할 수 있도록 하자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterThree.md#15-%EC%9E%90%EC%9B%90-%EA%B4%80%EB%A6%AC-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-%EA%B4%80%EB%A6%AC%EB%90%98%EB%8A%94-%EC%9E%90%EC%9B%90%EC%9D%80-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EC%A0%91%EA%B7%BC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8F%84%EB%A1%9D-%ED%95%98%EC%9E%90)
+
+[16. new 및 delete를 사용할 때는 형태를 반드시 맞추자](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterThree.md#16-new-%EB%B0%8F-delete%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%A0-%EB%95%8C%EB%8A%94-%ED%98%95%ED%83%9C%EB%A5%BC-%EB%B0%98%EB%93%9C%EC%8B%9C-%EB%A7%9E%EC%B6%94%EC%9E%90)
+
+[17. new로 생성한 객체를 스마트 포인터에 저장하는 코드는 별도의 한 문장으로 만들자.](https://github.com/SkydevilK/Study/blob/master/Effective_C%2B%2B/ChapterThree.md#17-new%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%8A%A4%EB%A7%88%ED%8A%B8-%ED%8F%AC%EC%9D%B8%ED%84%B0%EC%97%90-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EC%BD%94%EB%93%9C%EB%8A%94-%EB%B3%84%EB%8F%84%EC%9D%98-%ED%95%9C-%EB%AC%B8%EC%9E%A5%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EC%9E%90)
+
 # 13. 자원 관리에는 객체가 그만!
 
 ```
