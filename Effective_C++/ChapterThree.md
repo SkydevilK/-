@@ -120,3 +120,35 @@ Lock ml2(ml1);
 
 **RAII 객체의 복사는 그 객체가 관리하는 자원의 복사 문제를 안고 가기 때문에, 그 자원을 어떻게 복사하느냐에 따라 RAII 객체의 복사 동작이 결정된다.<br>**
 **RAII 클래스에 구현하는 일반적인 복사 동작은 복사를 금지하거나 참조 카운팅을 해 주는 선으로 마루리 한다.<br>**
+
+# 15. 자원 관리 클래스에서 관리되는 자원은 외부에서 접근할 수 있도록 하자
+
+```
+int battery(const Samsung *pSamsung);
+int batteryLevel = battery(pSamsung); // 에러
+```
+- Samsung의 포인터를 원하는데 tr1::shared_ptr<Samsung> 타입의 객체를 반환하고 있어서 이다.
+
+- 해결방법
+  - 명시적 변환
+    - tr1::shared_ptr과 auto_ptr은 get이라는 명시적 변환을 수행하는 멤버 함수가 있다.
+    ```
+    int batteryLevel = battery(pSamsung.get());
+    ```
+    
+  - 암시적 변환
+    ```
+    class Samsung {
+      public:
+        bool isBatterySafe() const;
+    };
+    Samsung * createSamsung();
+    std::tr1::shared_ptr<Samsung> pSamsung(createSamsung());
+    bool check = !(pSamsung->isBatterySafe());
+    std::auto_ptr<Samsung> pSamsung2(createSamsung());
+    bool check2 = !((*pSamsung2).isBatterySafe());
+    ```
+  
+**실제 자원을 직접 접근해야 하는 기존 API들도 많기 때문에, RAII 클래스를 만들 때는 그 클래스가 관리하는 자원을 얻을 수 있는 방법을 열어 주어야 한다.<br>**
+**자원 접근은 명시적 변환 혹은 암시적 변환을 통해 가능하다. 안전성만 따지면 명시적 변환이 대체적으로 더 좋지만, 고객 편의성을 놓고 보면 암시적 변환이 괜찮다.<br>**
+ 
