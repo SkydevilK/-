@@ -62,3 +62,61 @@ void f()
   
 **자원 누출을 막기 위해, 생성자 안에서 자원을 획득하고 소멸자에서 그것을 해제하는 RAII 객체를 사용해야 한다.<br>**
 **일반적으로 널리 쓰이는 RAII 클래스는 auto_ptr과 tr1::shared_ptr이다. tr1::shared_ptr이 복사 시의 동작이 직관적이기 때문에 대개 더 좋다. 반면, auto_ptr은 복사되는 객체(원본 객체)를 null로 만들어 버린다.<br>**
+
+# 14. 자원 관리 클래스의 복사 동작에 대해 진지하게 고찰하자
+
+```
+class Lock {
+  public:
+    explicit Lock(Mutex *pm) : mutexPtr(pm)
+    {
+      lock(mutexPtr);
+    }
+    ~Lock()
+    {
+      unlock(mutexPtr);
+    }
+  private:
+    Mutex *mutexPtr;
+};
+```
+```
+// 정상적으로 실행이 된다.
+Mutex m;
+{
+  Lock m1(&m);
+}
+```
+- Lock 객체가 복사 될 경우
+```
+Lock ml1(&m);
+Lock ml2(ml1);
+```
+  - 복사를 금지한다.
+    ```
+    class Lock: private Uncopyable {
+      public:
+      ...
+    };
+    ```
+  - 관리하고 있는 자원에 대해 참조 카운팅을 수행한다.
+    - tr1::shared_ptr에 삭제자(deleter)를 지정한다.
+      - deleter는 tr1::shared_ptr이 유지하는 참조 카운트가 0이 되었을 때 호출되는 함수 혹은 함수 객체를 말한다.
+    ```
+    class Lock {
+      public:
+        explicit Lock(Mutex *pm) : mutexPtr(pm, unlock) // 삭제자로 unlock 함수를 사용한다.
+        {
+          lock(mutexPtr.get());
+        }
+      private:
+        std::tr1::shared_ptr<Mutex> mutexPtr; // 원시 포인터 대신에 shared_ptr을 사용한다.
+    };
+    ```
+  - 관리하고 있는 자원을 진짜로 복사한다.
+    - deep copy를 수행한다.
+  - 관리하고 있는 자원의 소유권을 옮긴다.
+    - auto_ptr의 복사 동작이다.
+
+**RAII 객체의 복사는 그 객체가 관리하는 자원의 복사 문제를 안고 가기 때문에, 그 자원을 어떻게 복사하느냐에 따라 RAII 객체의 복사 동작이 결정된다.<br>**
+**RAII 클래스에 구현하는 일반적인 복사 동작은 복사를 금지하거나 참조 카운팅을 해 주는 선으로 마루리 한다.<br>**
