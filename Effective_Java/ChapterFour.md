@@ -143,3 +143,75 @@ private static <E> void swapHelper(List<E> list, int i, int j) {
   - 가변인수 기능은 배열을 노출하여 추상화가 완벽하지 못하고, 배열과 제네릭의 타입 규칙이 서로 다르기 때문이다.
 - 제네릭 varargs 매개변수는 type-safe 하지 않지만 허용이 된다.
 - 메서드에 제네릭 (혹은 매개변수화된) varargs 매개면수를 사용하고자 한다면, 먼저 그 메서드의 type-safe를 확인한 다음 @SafeVarargs 어노테이션을 달아 에러를 없애야 한다.
+
+# 아이템 33. 타입 안전 이종 컨테이너를 고려하라
+
+**타입 안전 이종 컨테이너 패턴(type safe heterogeneous container pattern)**
+
+- 컨테이너 대신 Key를 매개변수화한 다음, 컨테이너에 값을 넣거나 뺄 때 매개변수화한 Key를 함께 제공하는 것
+- 제네릭 타입 시스템이 값의 타입이 키와 같음을 보장해 줌
+
+- 타입별로 즐겨 찾는 인스턴스를 저장하고 검색할 수 있는 클래스
+```
+public class Favorites {
+  public <T> void putFavorite(Class<T> type, T instance);
+  public <T> T getFavorite(Class<T> type);
+}
+```
+- 클라이언트
+```
+public static void main(String[] args) {
+  Favorites f = new Favorites();
+  
+  f.putFavorite(String.class, "Java");
+  f.putFavorite(Integer.class, 0xcafebabe);
+  f.putFavorite(Class.class, Favorites.class);
+  
+  String favoriteString = f.getFavorite(String.class);
+  int favoriteInteger = f.getFavorite(Integer.class);
+  Class<?> favoriteClass = f.getFavorite(Class.class);
+  
+  System.out.printf("%s %x %s\n", favoriteString, favoriteInteger, favoriteClass.getName());
+  // Java cafebabe Favorites
+}
+```
+- Favorites 인스턴스는 안전하다. 따라서, 타입 안전 이종 컨테이너라 할 만 하다.
+```
+public class Favorites {
+  private Map<Class<?>, Object> favorites = new HashMap<>();
+  
+  public <T> void putFavorite(Class<T> type, T instance) {
+    favorites.put(Objects.requireNonNUll(type), instance);
+  }
+  
+  public <T> T getFavorite(Class<T> type) {
+    return type.cast(favorites.get(type));
+  }
+}
+```
+- favorites는 비한정적 와일드카드 타입이라 null밖에 넣을 수 없다고 생각할 수 있지만, 와일드카드 타입이 중첩되어 있어 넣을 수 있다.
+  - 맵이 아니라 Key가 와일드카드 타입인 것이다.
+  - 모든 Key가 서로 다른 매개변수화 타입일 수 있다는 뜻으로, 첫 번째는 Class<String>, 두 번째는 Class<Integer> 식으로 될 수 있다.
+- favorites 맵의 value 타입은 단순히 Object이다.
+  - favorites는 Key와 Value 사이의 타입 관계를 보증하지 않는다는 뜻이다.
+- getFavorite에서 cast 연산을 해준다.
+  - 객체 참조를 Class 객체가 가르키는 타입으로 동적 형변환한다.
+
+- 제약 사항
+  - 악의적인 클라이언트가 Class 객체를 (Generic이 아닌) Raw Type으로 넘기면 Favorites 인스턴스의 Type-Safe가 쉽게 깨진다.
+  ```
+  f.putFacorite((Class)Integer.class, "String 값이다.");
+  int favoriteInteger = f.getFavorite(Interger.class); // ClassCastException 에러 발생
+  ```
+  - 실체화 불가 타입에는 사용할 수 없다.
+    - String이나 String[]은 저장할 수 있어도 List<String>은 저장할 수 없다.
+      - super type token을 이용해 해결할 수 있다.
+      ```
+      Favorites f = new Favorites();
+      List<String> pets = Arrays.asList("Dog", "Cat", "Bird");
+      f.putFavorite(new TypeRef<List<String>>(){}, pets);
+      List<String> listofStrings = f.getFavorite(new TypeRef<List<String>>(){});
+      ```
+**컬렉션 API로 대표되는 일반적인 제네릭 형태에서는 한 컨테이너가 다룰 수 있는 타입 매개변수의 수가 고정되어 있다.<br>**
+**하지만 컨테이너 자체가 아닌 Key를 타입 매개변수로 바꾸면 이런 제약이 없는 타입 안전 이종 컨테이너를 만들 수 있다.<br>**
+**타입 안전 이종 컨테이너는 Class를 Key로 쓰며, 이런 식으로 쓰이는 Class 객체를 타입 토큰이라 한다.<br>**
