@@ -60,3 +60,22 @@ public <T> T[] toArray(T[] a) {
 
 **비검사 경고는 중요하니 무시하지말자<br>**
 **모든 비검사 경고는 런타임에서 ClassCastException을 일으킬 수 있다.<br>**
+
+# 아이템 28. 배열보다는 리스트를 사용하라
+
+- 배열은 공변이다.
+  - Sub가 Super의 하위타입이라면 Sub[]는 Super[]의 하위 타입이 된다.
+- 제네릭은 불공변이다.
+  - 즉, 서로 다른 Type1과 Type2가 있을 때, List<Type1>은 List<Type2>의 하위 타입도 아니고 상위 타입도 아니다.
+- 런타임 에러
+  ```
+  Object[] objectArray = new Long[1];
+  objectArray[0] = "몰라요"; // ArrayStoreException
+  ```
+- 컴파일 에러
+  ```
+  List<Object> list = new ArrayList<Long>();  // 호환되지 않는 타입이다.
+  list.add("몰라요");
+  ```
+
+**리스트가 배열보다 성능 면에서는 안 좋지만, 코드 안전성 부분에서는 좋다.**
