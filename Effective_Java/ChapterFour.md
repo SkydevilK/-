@@ -89,3 +89,50 @@ public <T> T[] toArray(T[] a) {
 
 - 제네릭 타입과 마찬가지로, 클라이언트에서 입력 매개변수와 반환값을 명시적으로 형변환해야 하는 메서드보다 제네릭 메서드가 더 안전하며 사용하기도 쉽다.
 - 타입과 마찬가지로, 메서드도 형변환 없이 사용할 수 있는 편이 좋으며, 많은 경우 그렇게 하려면 제네릭 메서드가 되어야 한다.
+
+# 아이템 31. 한정적 와일드카드를 사용해 API 유연성을 높이라
+
+**PECS(producer-extends, consumer-super**
+
+- 매개변수화 타입 T
+  - 생산자 <? extends T>
+  - 소비자 <? super T>
+  ```
+  public Chooser(Collection<T> choices)
+  public Chooser(Collection<? extends T> choices)
+  ```
+  ```
+  public static <E> Set<E> union(Set<E> s1, Set<E> s2)
+  public static <E> Set<E> union(Set<? extends E> s1, Set<? extends E> s2>)
+  ```
+  - 반환 타입이 Set<E>인 이유는 반환 타입에는 한정적 와일드카드 타입을 사용하면 안된다.
+    - 유연성을 높여주기는 커녕 클라이언트 코드에서도 와일드카드 타입을 사용해야 하기 때문이다.
+- 클래스 사용자가 와일드카드 타입을 신경 써야 한다면 그 API에 무슨 문제가 있을 가능성이 크다.
+
+```
+public static <E extends Comparable<E>> E max(List<E> list)
+public static <E extends Comparable<? super E>> E max(List<? extends E> list)
+```
+- 입력 매개변수에서는 E 인스턴스를 생산하므로 원래의 List<E>를 List<? extends E>로 수정했다.
+- Comparable은 언제나 소비자이므로, 일반적으로 Comparable<E> 보다는 Comparable<? super E>를 사용하는 편이 낫다.
+- COmparator도 마찬가지로 Comparator<E> 보다는 Comparator<? super E>를 사용하는 편이 낫다.
+
+- 메서드 선언에 타입 매개변수가 한 번만 나오면 와일드 카드로 대체하라.
+```
+public static <E> void swap(List<E> list, int i, int j);
+public static void swap(List<?> list, int i, int j);   // 해당 방식 사용
+
+public static void swap(List<?> list, int i, int j) {
+  list.set(i, list.set(j, list.get(i));     // 컴파일 에러 (List<?>에는 null값 밖에 들어가지 않음)
+}
+
+public static void swap(List<?> list, int i, int j) {
+  swapHelper(list, i, j);
+}
+private static <E> void swapHelper(List<E> list, int i, int j) {
+  list.set(i, list.set(j, list.get(i));
+}
+```
+
+**조금 복잡하더라도 와일드카드 타입을 적용하면 API가 훨씬 유연해진다.<br>**
+**PECS 공식을 기억하자.br>**
