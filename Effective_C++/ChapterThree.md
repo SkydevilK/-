@@ -156,3 +156,37 @@ int batteryLevel = battery(pSamsung); // 에러
 
 - **new 표현식에 []를 썻으면, 대응되는 delete 표헌식에도 []를 써야 한다.<br>**
 - **new 표현식에 []를 안 썼으면, 대응되는 delete 표현식에도 []를 쓰지 말아야 한다.<br>**
+
+# 17. new로 생성한 객체를 스마트 포인터에 저장하는 코드는 별도의 한 문장으로 만들자.
+
+```
+int priority();
+void processWidget (std::tr1::shared_ptr<Widget> pw, int priority);
+processWidget(new Widget, priority());
+```
+- 컴파일 에러가 발생한다. 
+  - tr1::shared_ptr의 생성자는 explicit로 선언되어 있어서 new Widget 표현식에 의해 만들어진 포인터가 tr1::shared_ptr 타입의 객체로 바꾸는 암시적인 변환이 없다.
+```
+processWidget(std::tr1::shared_ptr<Widget>(new Widget), priority());
+```
+- 메모리 누수의 위험이 있다.
+  - std::tr1::shared_ptr<Widget>(new Widget)
+    - new Widget 표현식을 실행하는 부분
+    - tr1::shared_ptr 생성자를 호출하는 부분
+  - 컴파일러는 processWidget이 호출되기 전에 세 가지 연산을 위한 코드를 만들어야 한다.
+    1. priority를 호출한다.
+    2. new Widget을 실행한다.
+    3. tr1::shared_ptr 생성자를 호출한다.
+  - 연산 순서가 컴파일러마다 달라서 이런 식으로 호출될 수도 있다.
+    1. new Widget을 실행한다.
+    2. priority를 호출한다.
+    3. tr1::shared_ptr 생성자를 호출한다.
+    - 2번에서 예외가 발생 하면 new Widget으로 만들어졌던 포인터가 유실된다.
+
+- 해결 방법
+  ```
+  std::tr1::shared_ptr<Widget> pw(new Widget);
+  processWidget(pw, priority());
+  ```
+
+**new로 생성한 객체를 스마트 포인터로 넣는 코드는 별도의 한 문장으로 만들자. 이것이 안 되어 있으면, 예외가 발생 할 때 디버깅하기 힘든 메모리 릭이 발생할 수 있다.<br>**
